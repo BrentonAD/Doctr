@@ -1,3 +1,4 @@
+import json
 from boilerpy3 import extractors
 from doctr.utils import extractive_summarisation
 
@@ -24,6 +25,9 @@ class Document:
             paragraphs = paragraphs_sorted
 
         return [ Paragraph(paragraph_dict) for paragraph_dict in paragraphs ]
+    
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 class Paragraph:
