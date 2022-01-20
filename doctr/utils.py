@@ -3,11 +3,14 @@ from azure.core.credentials import AzureKeyCredential
 
 # Authenticate the client using your key and endpoint 
 def authenticate_client(key, endpoint):
-    ta_credential = AzureKeyCredential(key)
-    text_analytics_client = TextAnalyticsClient(
-            endpoint=endpoint, 
-            credential=ta_credential)
-    return text_analytics_client
+    try:
+        ta_credential = AzureKeyCredential(key)
+        text_analytics_client = TextAnalyticsClient(
+                endpoint=endpoint, 
+                credential=ta_credential)
+        return text_analytics_client
+    except:
+        return None
 
 # Example method for summarizing text
 def extractive_summarisation(paragraphs_list, client):

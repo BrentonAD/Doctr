@@ -12,11 +12,12 @@ class Document:
 
         self.title = document.title
         self.content_raw = document.content
-        self.paragraphs = self.generate_paragraphs(client)
+        self.paragraphs = self.generate_paragraphs(client, document)
         #self.audio_stream = self.generate_audio_stream
 
-    def generate_paragraphs(self, client):
-        paragraphs_raw = [ {'id': idx, 'text_raw': paragraph_raw} for idx, paragraph_raw in enumerate(self.content_raw.split('\n')) ]
+    def generate_paragraphs(self, client, document):
+        text_blocks = [ block.text for block in document.text_blocks if block.is_content == True ]
+        paragraphs_raw = [ {'id': idx, 'text_raw': paragraph_raw} for idx, paragraph_raw in enumerate(text_blocks) ]
         paragraphs_sorted = sorted(paragraphs_raw, key=lambda x: len(x['text_raw']), reverse=True)
 
         if client:
