@@ -1,6 +1,6 @@
 import json
 from boilerpy3 import extractors
-from doctr.utils import extractive_summarisation
+from doctr.utils import document_extractive_summarisation, paragraph_extractive_summarisation
 
 class Document:
     
@@ -12,6 +12,7 @@ class Document:
 
         self.title = document.title
         self.content_raw = document.content
+        self.summary = document_extractive_summarisation(client, [self.content_raw])
         self.paragraphs = self.generate_paragraphs(client, document)
         #self.audio_stream = self.generate_audio_stream
 
@@ -21,7 +22,7 @@ class Document:
         paragraphs_sorted = sorted(paragraphs_raw, key=lambda x: len(x['text_raw']), reverse=True)
 
         if client:
-            paragraphs = extractive_summarisation(paragraphs_sorted, client)
+            paragraphs = paragraph_extractive_summarisation(paragraphs_sorted, client)
         else:
             paragraphs = paragraphs_sorted
 

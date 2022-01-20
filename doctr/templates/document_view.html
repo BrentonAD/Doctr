@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-light bg-light">
+    <nav class="navbar navbar-light bg-light">
         <div class="container-fluid navbar-custom">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="row">
@@ -27,16 +27,44 @@
         </div><!-- /.container-fluid -->
     </nav>
     <!-- End of navbar -->
-    <main role="main" class="container">
-        <div class="shadow mt-5 mb-5 p-3 bg-white rounded">
-            <h1>{{ document.title }}</h1>
-            <br>
-            <div class="main-document">
-                {% for para in document.paragraphs %}
-                <p>{{ para.text_raw }}</p>
-                {% endfor %}
+    <main role="main">
+        <div class="row m-5">
+            <div class="col-6">
+                <div class="shadow p-3 bg-white rounded">
+                    <h1>{{ document.title }}</h1>
+                    <br>
+                    <div class="main-document">
+                        {% for para in document.paragraphs %}
+                        <p id="para-{{ para.id }}">{{ para.text_raw }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 pt-3 pl-5">
+                <h1>Summary</h1>
+                <br>
+                <div class="lead text-center">
+                    {{ document.summary }}
+                </div>
+                <br>
+                <h1>Paragraphs</h1>
+                <br>
+                <div class="list-group">
+                    {% for para in document.paragraphs %}
+                    {% if para.summary %}
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Paragraph: {{ para.id + 1 }}</h5>
+                        </div>
+                        <p class="mb-1" id="para-{{ para.id }}">{{ para.summary }}</p>
+                        <small class="text-muted">{{ para.key_phrases }}</small>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
+
     </main>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -47,6 +75,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <!-- custom javascript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>

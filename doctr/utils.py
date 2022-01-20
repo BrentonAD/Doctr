@@ -12,8 +12,32 @@ def authenticate_client(key, endpoint):
     except:
         return None
 
+def document_extractive_summarisation(client, document_list):
+
+    poller = client.begin_analyze_actions(
+        document_list,
+        actions=[
+            ExtractSummaryAction(MaxSentenceCount=1, order_by='Rank')
+        ],
+    )
+
+    document_results = poller.result()
+    for result in document_results:
+        # Extract first summary sentence
+        extract_summary_result = result[0]  # first document, first result
+        if extract_summary_result.is_error:
+            # print("...Is an error with code '{}' and message '{}'".format(
+            #     extract_summary_result.code, extract_summary_result.message
+            # ))
+            print(extract_summary_result)
+            document_summary = "Could not generate summary"
+        else:
+            document_summary = extract_summary_result.sentences[0].text
+
+    return document_summary
+
 # Example method for summarizing text
-def extractive_summarisation(paragraphs_list, client):
+def paragraph_extractive_summarisation(paragraphs_list, client):
 
     paragraph_text_list = [ paragraph['text_raw'] for paragraph in paragraphs_list ]
 
