@@ -1,9 +1,14 @@
 .main-document {
-    padding: 1.5rem 1.5rem;
-    text-align: left;
-  }
+  padding: 1.5rem 1.5rem;
+  text-align: left;
+}
+.text-highlight {
+  color: #50BEDB
+}
+.background-highlight{
+  background-color: #50BEDB80;
+}
 
 h1 {
   text-align: center;
 }
-  

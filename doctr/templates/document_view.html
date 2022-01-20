@@ -29,7 +29,7 @@
     <!-- End of navbar -->
     <main role="main">
         <div class="row m-5">
-            <div class="col-6">
+            <div class="col-7">
                 <div class="shadow p-3 bg-white rounded">
                     <h1>{{ document.title }}</h1>
                     <br>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 pt-3 pl-5">
+            <div class="col-5 pt-3 pl-5">
                 <h1>Summary</h1>
                 <br>
                 <div class="lead text-center">
@@ -52,11 +52,11 @@
                 <div class="list-group">
                     {% for para in document.paragraphs %}
                     {% if para.summary %}
-                    <div class="border list-group-item-action flex-column align-items-start p-3 mb-2">
+                    <div  id="para-{{ para.id }}" class="border list-group-item-action flex-column align-items-start p-3 mb-2">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Paragraph: {{ para.id + 1 }}</h5>
                         </div>
-                        <p class="mb-1" id="para-{{ para.id }}">{{ para.summary }}</p>
+                        <p class="mb-1">{{ para.summary }}</p>
                         <small class="text-muted">{{ para.key_phrases }}</small>
                     </div>
                     {% endif %}
