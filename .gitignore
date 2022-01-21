@@ -1,6 +1,10 @@
 _sandbox
 config.py
 
+doctr/static/audio/*
+# exception to the rule
+!doctr/static/audio/.gitkeep
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

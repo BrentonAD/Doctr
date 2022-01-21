@@ -1,4 +1,6 @@
 from azure.ai.textanalytics import TextAnalyticsClient, ExtractSummaryAction, ExtractKeyPhrasesAction
+import azure.cognitiveservices.speech as speechsdk
+
 from azure.core.credentials import AzureKeyCredential
 
 # Authenticate the client using your key and endpoint 
@@ -9,6 +11,13 @@ def authenticate_client(key, endpoint):
                 endpoint=endpoint, 
                 credential=ta_credential)
         return text_analytics_client
+    except:
+        return None
+
+def initialise_speech_config(key, endpoint):
+    try:
+        speech_config = speechsdk.SpeechConfig(subscription=key, endpoint=endpoint)
+        return speech_config
     except:
         return None
 
@@ -72,3 +81,16 @@ def paragraph_extractive_summarisation(paragraphs_list, client):
             paragraphs_list[idx]['summary'] = extract_summary_result.sentences[0].text
 
     return paragraphs_list
+
+def generate_audio_stream(speech_config, content):
+    speech_config.speech_synthesis_language = "en-AU" # e.g. "de-DE"
+    # The voice setting will overwrite language setting.
+    # The voice setting will not overwrite the voice element in input SSML.
+    speech_config.speech_synthesis_voice_name ="en-IE-EmilyNeural"
+
+    #audio_config = speechsdk.audio.AudioOutputConfig(filename='./TestAudio.wav')
+    synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=None)
+    result = synthesizer.speak_text(content)
+    stream = speechsdk.AudioDataStream(result)
+
+    return stream

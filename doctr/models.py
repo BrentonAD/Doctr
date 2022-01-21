@@ -1,12 +1,12 @@
 import json
 from boilerpy3 import extractors
-from doctr.utils import document_extractive_summarisation, paragraph_extractive_summarisation
+from doctr.utils import document_extractive_summarisation, paragraph_extractive_summarisation, generate_audio_stream
 
 class Document:
     
     extractor = extractors.DefaultExtractor()
 
-    def __init__(self, url: str, client=None):
+    def __init__(self, url: str, client=None, speech_config=None):
         
         document = self.extractor.get_doc_from_url(url)
 
@@ -14,7 +14,7 @@ class Document:
         self.content_raw = document.content
         self.summary = document_extractive_summarisation(client, [self.content_raw])
         self.paragraphs = self.generate_paragraphs(client, document)
-        #self.audio_stream = self.generate_audio_stream
+        self.audio_stream = generate_audio_stream(speech_config, self.content_raw)
 
     def generate_paragraphs(self, client, document):
         text_blocks = [ block.text for block in document.text_blocks if block.is_content == True ]
