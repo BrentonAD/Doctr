@@ -11,13 +11,16 @@ import os
 def home():
     
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template("index.html", error=False)
     else:
-        url = request.form['url']
-        document = Document(url, client, speech_config)
-        path = os.path.join("doctr","static","audio","tts_audio.wav")
-        document.audio_stream.save_to_wav_file(path)
+        try:
+            url = request.form['url']
+            document = Document(url, client, speech_config)
+            path = os.path.join("doctr","static","audio","tts_audio.wav")
+            document.audio_stream.save_to_wav_file(path)
 
-        # ensure paragraphs are in the right order
-        document.paragraphs.sort(key=lambda x: x.id)
-        return render_template('document_view.html', document=document)
+            # ensure paragraphs are in the right order
+            document.paragraphs.sort(key=lambda x: x.id)
+            return render_template('document_view.html', document=document)
+        except:
+            return render_template("index.html", error=True)
